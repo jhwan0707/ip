@@ -37,11 +37,21 @@ public class Johan {
                     System.out.println(tasks[id - 1].toString());
                 }
             } else if (input.startsWith("todo")) {
-                String description = input.substring(5).trim();
-                tasks[taskCount++] = new Todo(description);
-                System.out.println("Got it. I've added this task:");
-                System.out.println(tasks[taskCount - 1].toString());
-                System.out.println("Now you have " + taskCount + " tasks in the list.");
+                String description = input.substring(4).trim();
+                if (description.isEmpty()) {
+                    System.out.println("____________________________________________________________");
+                    System.out.println(" OOPS!!! The description of a todo cannot be empty.");
+                    System.out.println("____________________________________________________________");
+                } else {
+                    tasks[taskCount++] = new Todo(description);
+                    System.out.println("Got it. I've added this task:");
+                    System.out.println(tasks[taskCount - 1].toString());
+                    System.out.println("Now you have " + taskCount + " tasks in the list.");
+                }
+                // tasks[taskCount++] = new Todo(description);
+                // System.out.println("Got it. I've added this task:");
+                // System.out.println(tasks[taskCount - 1].toString());
+                // System.out.println("Now you have " + taskCount + " tasks in the list.");
             } else if (input.startsWith("deadline")) {
                 int byIndex = input.indexOf("/by");
                 String description = input.substring(9, byIndex).trim();
@@ -64,8 +74,9 @@ public class Johan {
                 System.out.println(tasks[taskCount - 1].toString());
                 System.out.println("Now you have " + taskCount + " tasks in the list.");
             } else {
-                System.out.println("added: " + input);
-                tasks[taskCount++] = new Task(input);
+                System.out.println("____________________________________________________________");
+                System.out.println(" OOPS!!! I'm sorry, but I don't know what that means :-(");
+                System.out.println("____________________________________________________________");
             }
         }
         System.out.println("Bye. Hope to see you again soon!");

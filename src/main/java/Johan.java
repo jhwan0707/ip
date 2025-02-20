@@ -13,7 +13,7 @@ public class Johan {
 
         while (true) {
             input = scanner.nextLine().toLowerCase().trim();
-            String[] words = input.split("");
+            // String[] words = input.split("");
             if (input.equals("bye")) {
                 break;
             } else if (input.equals("list")) {

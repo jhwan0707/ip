@@ -2,13 +2,19 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Johan {
+    private static final String FILE_PATH = "./data/johan.txt";
+    private static ArrayList<Task> tasks = new ArrayList<>();
+    private static Storage storage;
+
     public static void main(String[] args) {
+        storage = new Storage(FILE_PATH);
+        tasks = storage.loadTasks();
         String input;
         Scanner scanner = new Scanner(System.in);
         System.out.println("Hello! I'm Johan");
         System.out.println("What can I do for you?");
         // Task[] tasks = new Task[100];
-        ArrayList<Task> tasks = new ArrayList<>();
+        // ArrayList<Task> tasks = new ArrayList<>();
         // int taskCount = 0;
 
         while (true) {
@@ -28,6 +34,7 @@ public class Johan {
                     tasks.get(id - 1).markAsDone();
                     System.out.println("Nice! I've marked this task as done:");
                     System.out.println(tasks.get(id - 1).toString());
+                    storage.saveTasks(tasks);
                 }
             } else if (input.startsWith("unmark ")) {
                 String taskID = input.substring(7);
@@ -36,6 +43,7 @@ public class Johan {
                     tasks.get(id - 1).markAsNotDone();
                     System.out.println("OK, I've marked this task as not done yet:");
                     System.out.println(tasks.get(id - 1).toString());
+                    storage.saveTasks(tasks);
                 }
             } else if (input.startsWith("todo")) {
                 String description = input.substring(4).trim();
@@ -48,6 +56,7 @@ public class Johan {
                     System.out.println("Got it. I've added this task:");
                     System.out.println(tasks.get(tasks.size() - 1).toString());
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                    storage.saveTasks(tasks);
                 }
                 // tasks[taskCount++] = new Todo(description);
                 // System.out.println("Got it. I've added this task:");
@@ -62,6 +71,7 @@ public class Johan {
                 System.out.println("Got it. I've added this task:");
                 System.out.println(tasks.get(tasks.size() - 1).toString());
                 System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                storage.saveTasks(tasks);
             } else if (input.startsWith("event")) {
                 int fromIndex = input.indexOf("/from");
                 int toIndex = input.indexOf("/to");
@@ -74,6 +84,7 @@ public class Johan {
                 System.out.println("Got it. I've added this task:");
                 System.out.println(tasks.get(tasks.size() - 1).toString());
                 System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                storage.saveTasks(tasks);
             } else if (input.startsWith("delete")) {
                 String taskID = input.substring(7);
                 int id = Integer.parseInt(taskID);
@@ -84,6 +95,7 @@ public class Johan {
                     System.out.println(removedTask.toString());
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
                     System.out.println("____________________________________________________________");
+                    storage.saveTasks(tasks);
                 } else {
                     System.out.println("____________________________________________________________");
                     System.out.println(" OOPS!!! The task ID is invalid.");

@@ -1,13 +1,18 @@
-public class Task {
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+public abstract class Task {
     protected String description;
     protected boolean isDone;
     private static int nextTaskID = 1;
     private final int ID;
+    protected LocalDate deadline;
 
     public Task(String description) {
         this.description = description;
         this.isDone = false;
         this.ID = nextTaskID++;
+        this.deadline = null;
     }
 
     public String getID() {
@@ -26,8 +31,20 @@ public class Task {
         isDone = false;
     }
 
+    public LocalDate getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(LocalDate deadline) {
+        this.deadline = deadline;
+    }
+
     @Override
     public String toString() {
-        return "[" + this.getStatusIcon() + "] " + description;
+        String baseString = "[" + this.getStatusIcon() + "] " + description;
+        if (deadline != null) {
+            baseString += "(by: " + deadline.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ")";
+        }
+        return baseString;
     }
 }

@@ -1,3 +1,7 @@
+import java.time.LocalDate;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -64,27 +68,60 @@ public class Johan {
                 // System.out.println("Now you have " + taskCount + " tasks in the list.");
             } else if (input.startsWith("deadline")) {
                 int byIndex = input.indexOf("/by");
+                if (byIndex == -1) {
+                    System.out.println("____________________________________________________________");
+                    System.out.println(" OOPS!!! Please specify a deadline with /by in d/M/yyyy format (e.g., 2/12/2019).");
+                    System.out.println("____________________________________________________________");
+                    continue;
+                }
                 String description = input.substring(9, byIndex).trim();
                 String by = input.substring(byIndex + 4);
-                by = by.substring(0, 1).toUpperCase() + by.substring(1);
-                tasks.add(new Deadline(description, by));
-                System.out.println("Got it. I've added this task:");
-                System.out.println(tasks.get(tasks.size() - 1).toString());
-                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-                storage.saveTasks(tasks);
+                try {
+                    // DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+                    // LocalDate dateTime = LocalDate.parse(by, inputFormatter);
+                    tasks.add(new Deadline(description, by));
+                    System.out.println("Got it. I've added this task:");
+                    System.out.println(tasks.get(tasks.size() - 1).toString());
+                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                    storage.saveTasks(tasks);
+                } catch (Exception e) {
+                    System.out.println("____________________________________________________________");
+                    System.out.println(" OOPS!!! Invalid date format. Use d/M/yyyy (e.g., 2/12/2019).");
+                    System.out.println("____________________________________________________________");
+                }
+                // by = by.substring(0, 1).toUpperCase() + by.substring(1);
             } else if (input.startsWith("event")) {
                 int fromIndex = input.indexOf("/from");
                 int toIndex = input.indexOf("/to");
+                if (fromIndex == -1 && toIndex == -1) {
+                    System.out.println("____________________________________________________________");
+                    System.out.println(" OOPS!!! Please specify start and end times with /from and /to in d/M/yyyy format (e.g., 2/12/2019).");
+                    System.out.println("____________________________________________________________");
+                    continue;
+                }
                 String description = input.substring(6, fromIndex).trim();
-                String startDate = input.substring(fromIndex + 6, toIndex);
-                startDate = startDate.substring(0, 1).toUpperCase() + startDate.substring(1);
-                String endDate = input.substring(toIndex + 3).trim();
-                endDate = endDate.substring(0, 1).toUpperCase() + endDate.substring(1);
-                tasks.add(new Event(description, startDate, endDate));
-                System.out.println("Got it. I've added this task:");
-                System.out.println(tasks.get(tasks.size() - 1).toString());
-                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-                storage.saveTasks(tasks);
+                String startDate = input.substring(fromIndex + 6, toIndex).trim();
+                // startDate = startDate.substring(0, 1).toUpperCase() + startDate.substring(1);
+                // String endDate = input.substring(toIndex + 3).trim();
+                String endDate = input.substring(toIndex + 4).trim();
+                // endDate = endDate.substring(0, 1).toUpperCase() + endDate.substring(1);
+                try {
+                    // DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+                    // System.out.println("Parsing date: " + startDate + " to " + endDate); // Debug
+                    // LocalDate dateTime = LocalDate.parse(startDate, inputFormatter);
+                    // LocalDate endDateTime = LocalDate.parse(endDate, inputFormatter);
+                    LocalDate dateTime = parseDate(startDate);
+                    LocalDate endDateTime = parseDate(startDate);
+                    tasks.add(new Event(description, startDate, endDate));
+                    System.out.println("Got it. I've added this task:");
+                    System.out.println(tasks.get(tasks.size() - 1).toString());
+                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                    storage.saveTasks(tasks);
+                } catch (Exception e) {
+                    System.out.println("____________________________________________________________");
+                    System.out.println(" OOPS!!! Invalid date format. Use d/M/yyyy (e.g., 2/12/2019).");
+                    System.out.println("____________________________________________________________");
+                }
             } else if (input.startsWith("delete")) {
                 String taskID = input.substring(7);
                 int id = Integer.parseInt(taskID);
@@ -101,6 +138,41 @@ public class Johan {
                     System.out.println(" OOPS!!! The task ID is invalid.");
                     System.out.println("____________________________________________________________");
                 }
+            } else if (input.startsWith("on ")) { // fix this, showing everything despite not being on the right date
+                String dateStr = input.substring(3).trim();
+                try {
+                    // DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+                    // LocalDate targetDate = LocalDate.parse(dateStr, dateFormatter);
+                    LocalDate targetDate = parseDate(dateStr);
+                    System.out.println("Tasks on " + targetDate.format(DateTimeFormatter.ofPattern("d/MM/yyyy")) + ":");
+                    boolean found = false;
+                    for (int i = 0; i < tasks.size(); i++) {
+                        Task task = tasks.get(i);
+                        if (task instanceof Deadline) {
+                            LocalDate deadline = ((Deadline) task).getBy();
+                            if (deadline != null && deadline.equals(targetDate)) {
+                                System.out.println((i + 1) + "." + task.toString());
+                                found = true;
+                            }
+                        } else if (task instanceof Event) {
+                            LocalDate startDate = ((Event) task).getStartDate();
+                            LocalDate endDate = ((Event) task).getEndDate();
+                            if (startDate != null && endDate != null) {
+                                if (!startDate.isAfter(targetDate) && !endDate.isBefore(targetDate)) {
+                                    System.out.println((i + 1) + "." + task.toString());
+                                    found = true;
+                                }
+                            }
+                        }
+                    }
+                    if (!found) {
+                        System.out.println("No tasks found on this date.");
+                    }
+                } catch (Exception e) {
+                    System.out.println("____________________________________________________________");
+                    System.out.println(" OOPS!!! Invalid date format. Use d/M/yyyy (e.g., 2/12/2019).");
+                    System.out.println("____________________________________________________________");
+                }
             } else {
                 System.out.println("____________________________________________________________");
                 System.out.println(" OOPS!!! I'm sorry, but I don't know what that means :-(");
@@ -108,5 +180,15 @@ public class Johan {
             }
         }
         System.out.println("Bye. Hope to see you again soon!");
+    }
+
+    private static LocalDate parseDate(String dateStr) {
+        try {
+            DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("d/M/yyyy").withLocale(java.util.Locale.ENGLISH);
+            return LocalDate.parse(dateStr.trim(), formatter1);
+        } catch (Exception e) {
+            DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd").withLocale(java.util.Locale.ENGLISH);
+            return LocalDate.parse(dateStr.trim(), formatter2);
+        }
     }
 }

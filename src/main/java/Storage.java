@@ -1,5 +1,8 @@
 import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Storage {
     private final String filePath;
@@ -37,6 +40,7 @@ public class Storage {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
+            // DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(" \\| ");
                 if (parts.length < 3) continue;
@@ -49,9 +53,22 @@ public class Storage {
                 if (type.equals("T")) {
                     task = new Todo(description);
                 } else if (type.equals("D") && parts.length == 4) {
-                    task = new Deadline(description, parts[3]);
+                    try {
+                        // LocalDate deadline = LocalDate.parse(parts[3], inputFormatter);
+                        task = new Deadline(description, parts[3]);
+                    } catch (Exception e) {
+                        System.out.println("Error parsing deadline for task: " + description + ". Skipping...");
+                        continue;
+                    }
                 } else if (type.equals("E") && parts.length == 5) {
-                    task = new Event(description, parts[3], parts[4]);
+                    try {
+                        // LocalDate from = LocalDate.parse(parts[3], inputFormatter);
+                        // LocalDate to = LocalDate.parse(parts[4], inputFormatter);
+                        task = new Event(description, parts[3], parts[4]);
+                    } catch (Exception e) {
+                        System.out.println("Error parsing deadline for task: " + description + ". Skipping...");
+                        continue;
+                    }
                 } else {
                     continue; // Ignore invalid entries
                 }
@@ -85,9 +102,12 @@ public class Storage {
         String description = task.description;
 
         if (task instanceof Deadline) {
-            return type + " | " + status + " | " + description + " | " + ((Deadline) task).by;
+            LocalDate deadline = ((Deadline) task).getBy();
+            return type + " | " + status + " | " + description + " | " + deadline.format(DateTimeFormatter.ofPattern("d/M/yyyy"));
         } else if (task instanceof Event) {
-            return type + " | " + status + " | " + description + " | " + ((Event) task).startDate + " | " + ((Event) task).endDate;
+            LocalDate startDate = ((Event) task).getStartDate();
+            LocalDate endDate = ((Event) task).getEndDate();
+            return type + " | " + status + " | " + description + " | " + startDate.format(DateTimeFormatter.ofPattern("d/M/yyyy")) + " | " + endDate.format(DateTimeFormatter.ofPattern("d/M/yyyy"));
         } else {
             return type + " | " + status + " | " + description;
         }

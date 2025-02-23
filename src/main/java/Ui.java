@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Ui {
@@ -15,7 +17,7 @@ public class Ui {
     public void showTaskList(TaskList tasks) {
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + "." + tasks.get(i).toString());
+            System.out.println((i + 1) + "." + tasks.getTask(i).toString());
         }
     }
 
@@ -54,5 +56,30 @@ public class Ui {
 
     public void showLine() {
         System.out.println("____________________________________________________________");
+    }
+
+    public void showTasksOnDate(TaskList tasks, LocalDate targetDate) {
+        System.out.println("Tasks on " + targetDate.format(DateTimeFormatter.ofPattern("d/MM/yyyy")) + ":");
+        boolean found = false;
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.getTask(i);
+            if (task instanceof Deadline) {
+                LocalDate deadline = ((Deadline) task).getBy();
+                if (deadline != null && deadline.equals(targetDate)) {
+                    System.out.println((i + 1) + "." + task.toString());
+                    found = true;
+                }
+            } else if (task instanceof Event) {
+                LocalDate startDate = ((Event) task).getStartDate();
+                LocalDate endDate = ((Event) task).getEndDate();
+                if (startDate != null && endDate != null && !startDate.isAfter(targetDate) && !endDate.isBefore(targetDate)) {
+                    System.out.println((i + 1) + "." + task.toString());
+                    found = true;
+                }
+            }
+        }
+        if (!found) {
+            System.out.println("No tasks found on this date.");
+        }
     }
 }

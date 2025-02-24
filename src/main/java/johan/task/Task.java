@@ -1,3 +1,5 @@
+package johan.task;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -37,6 +39,14 @@ public abstract class Task {
 
     public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
+    }
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     @Override

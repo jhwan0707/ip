@@ -1,3 +1,10 @@
+package johan.command;
+
+import johan.storage.Storage;
+import johan.task.Task;
+import johan.task.TaskList;
+import johan.ui.Ui;
+
 public class DeleteCommand extends Command {
     private final int taskIndex;
 

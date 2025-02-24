@@ -1,8 +1,14 @@
+package johan.storage;
+
+import johan.task.Deadline;
+import johan.task.Event;
+import johan.task.Task;
+import johan.task.Todo;
+
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Storage {
     private final String filePath;
@@ -98,8 +104,8 @@ public class Storage {
             return "";
         }
 
-        String status = task.isDone ? "1" : "0";
-        String description = task.description;
+        String status = task.isDone() ? "1" : "0";
+        String description = task.getDescription();
 
         if (task instanceof Deadline) {
             LocalDate deadline = ((Deadline) task).getBy();

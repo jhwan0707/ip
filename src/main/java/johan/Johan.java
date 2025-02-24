@@ -1,3 +1,12 @@
+package johan;
+
+import johan.command.Command;
+import johan.parser.Parser;
+import johan.storage.Storage;
+import johan.task.Task;
+import johan.task.TaskList;
+import johan.ui.Ui;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -64,20 +73,20 @@ public class Johan {
 //import java.util.Scanner;
 //import java.util.ArrayList;
 //
-//public class Johan {
+//public class johan.Johan {
 //    private static final String FILE_PATH = "./data/johan.txt";
-//    private static ArrayList<Task> tasks = new ArrayList<>();
-//    private static Storage storage;
+//    private static ArrayList<johan.task.Task> tasks = new ArrayList<>();
+//    private static johan.storage.Storage storage;
 //
 //    public static void main(String[] args) {
-//        storage = new Storage(FILE_PATH);
+//        storage = new johan.storage.Storage(FILE_PATH);
 //        tasks = storage.loadTasks();
 //        String input;
 //        Scanner scanner = new Scanner(System.in);
-//        System.out.println("Hello! I'm Johan");
+//        System.out.println("Hello! I'm johan.Johan");
 //        System.out.println("What can I do for you?");
-//        // Task[] tasks = new Task[100];
-//        // ArrayList<Task> tasks = new ArrayList<>();
+//        // johan.task.Task[] tasks = new johan.task.Task[100];
+//        // ArrayList<johan.task.Task> tasks = new ArrayList<>();
 //        // int taskCount = 0;
 //
 //        while (true) {
@@ -115,13 +124,13 @@ public class Johan {
 //                    System.out.println(" OOPS!!! The description of a todo cannot be empty.");
 //                    System.out.println("____________________________________________________________");
 //                } else {
-//                    tasks.add(new Todo(description));
+//                    tasks.add(new johan.task.Todo(description));
 //                    System.out.println("Got it. I've added this task:");
 //                    System.out.println(tasks.get(tasks.size() - 1).toString());
 //                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
 //                    storage.saveTasks(tasks);
 //                }
-//                // tasks[taskCount++] = new Todo(description);
+//                // tasks[taskCount++] = new johan.task.Todo(description);
 //                // System.out.println("Got it. I've added this task:");
 //                // System.out.println(tasks[taskCount - 1].toString());
 //                // System.out.println("Now you have " + taskCount + " tasks in the list.");
@@ -138,7 +147,7 @@ public class Johan {
 //                try {
 //                    // DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
 //                    // LocalDate dateTime = LocalDate.parse(by, inputFormatter);
-//                    tasks.add(new Deadline(description, by));
+//                    tasks.add(new johan.task.Deadline(description, by));
 //                    System.out.println("Got it. I've added this task:");
 //                    System.out.println(tasks.get(tasks.size() - 1).toString());
 //                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
@@ -171,7 +180,7 @@ public class Johan {
 //                    // LocalDate endDateTime = LocalDate.parse(endDate, inputFormatter);
 //                    LocalDate dateTime = parseDate(startDate);
 //                    LocalDate endDateTime = parseDate(startDate);
-//                    tasks.add(new Event(description, startDate, endDate));
+//                    tasks.add(new johan.task.Event(description, startDate, endDate));
 //                    System.out.println("Got it. I've added this task:");
 //                    System.out.println(tasks.get(tasks.size() - 1).toString());
 //                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
@@ -185,7 +194,7 @@ public class Johan {
 //                String taskID = input.substring(7);
 //                int id = Integer.parseInt(taskID);
 //                if (id > 0 && id <= tasks.size()) {
-//                    Task removedTask = tasks.remove(id - 1);
+//                    johan.task.Task removedTask = tasks.remove(id - 1);
 //                    System.out.println("____________________________________________________________");
 //                    System.out.println("Noted. I've removed this task:");
 //                    System.out.println(removedTask.toString());
@@ -206,16 +215,16 @@ public class Johan {
 //                    System.out.println("Tasks on " + targetDate.format(DateTimeFormatter.ofPattern("d/MM/yyyy")) + ":");
 //                    boolean found = false;
 //                    for (int i = 0; i < tasks.size(); i++) {
-//                        Task task = tasks.get(i);
-//                        if (task instanceof Deadline) {
-//                            LocalDate deadline = ((Deadline) task).getBy();
+//                        johan.task.Task task = tasks.get(i);
+//                        if (task instanceof johan.task.Deadline) {
+//                            LocalDate deadline = ((johan.task.Deadline) task).getBy();
 //                            if (deadline != null && deadline.equals(targetDate)) {
 //                                System.out.println((i + 1) + "." + task.toString());
 //                                found = true;
 //                            }
-//                        } else if (task instanceof Event) {
-//                            LocalDate startDate = ((Event) task).getStartDate();
-//                            LocalDate endDate = ((Event) task).getEndDate();
+//                        } else if (task instanceof johan.task.Event) {
+//                            LocalDate startDate = ((johan.task.Event) task).getStartDate();
+//                            LocalDate endDate = ((johan.task.Event) task).getEndDate();
 //                            if (startDate != null && endDate != null) {
 //                                if (!startDate.isAfter(targetDate) && !endDate.isBefore(targetDate)) {
 //                                    System.out.println((i + 1) + "." + task.toString());

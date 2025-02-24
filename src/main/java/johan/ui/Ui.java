@@ -1,3 +1,10 @@
+package johan.ui;
+
+import johan.task.Deadline;
+import johan.task.Event;
+import johan.task.Task;
+import johan.task.TaskList;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -6,7 +13,7 @@ public class Ui {
     private final Scanner scanner = new Scanner(System.in);
 
     public void showWelcome() {
-        System.out.println("Hello! I'm Johan");
+        System.out.println("Hello! I'm johan.Johan");
         System.out.println("What can I do for you?");
     }
 

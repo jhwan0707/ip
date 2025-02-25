@@ -11,6 +11,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+// to run
+// from repos dir >> javac -d bin src/main/java/johan/*.java src/main/java/johan/*/*.java
+// java -cp bin johan.Johan
+
 public class Johan {
     private final Storage storage;
     private final TaskList tasks;

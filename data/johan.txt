@@ -1,2 +1,3 @@
-T | 0 | fly
-T | 0 | walk
+T | 0 | fly around
+T | 0 | read book
+D | 1 | finish project | 25/2/2025

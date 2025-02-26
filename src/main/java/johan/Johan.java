@@ -1,5 +1,9 @@
 package johan;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
 import johan.command.Command;
 import johan.parser.Parser;
 import johan.storage.Storage;
@@ -7,20 +11,25 @@ import johan.task.Task;
 import johan.task.TaskList;
 import johan.ui.Ui;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 // to run
 // from repos dir >> javac -d bin src/main/java/johan/*.java src/main/java/johan/*/*.java
 // java -cp bin johan.Johan
 
+/**
+ * Main class for the Johan task management application.
+ */
 public class Johan {
     private final Storage storage;
     private final TaskList tasks;
     private final Ui ui;
     private final Parser parser;
 
+    /**
+     * Constructs a Johan instance with the specified storage file path.
+     *
+     * @param filePath The path to the storage file
+     */
     public Johan(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -36,6 +45,9 @@ public class Johan {
         tasks = new TaskList(loadedTasks);
     }
 
+    /**
+     * Runs the main application loop, processing user commands until exit.
+     */
     public void run() {
         ui.showWelcome();
         boolean isExit = false;
@@ -54,11 +66,20 @@ public class Johan {
         }
         ui.showGoodbye();
     }
-
+    /**
+     * Main entry point for the application.
+     *
+     * @param args Command-line arguments (unused)
+     */
     public static void main(String[] args) {
         new Johan("./data/johan.txt").run();
     }
-
+    /**
+     * Parses a date string into a LocalDate object.
+     *
+     * @param dateStr The date string to parse
+     * @return The parsed LocalDate
+     */
     public static LocalDate parseDate(String dateStr) {
         try {
             DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("d/M/yyyy").withLocale(java.util.Locale.ENGLISH);

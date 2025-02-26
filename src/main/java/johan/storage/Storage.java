@@ -1,22 +1,39 @@
 package johan.storage;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
 import johan.task.Deadline;
 import johan.task.Event;
 import johan.task.Task;
 import johan.task.Todo;
 
-import java.io.*;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
+/**
+ * Handles storage and retrieval of tasks to/from a file
+ */
 public class Storage {
     private final String filePath;
 
+    /**
+     * Constructs a Storage instance with the specified file path.
+     * @param filePath The path to the storage file
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
     }
 
+    /**
+     * Saves the task list to the storage file.
+     * @param tasks The list of tasks to save
+     */
     public void saveTasks(ArrayList<Task> tasks) {
         File file = new File(filePath);
         File directory = new File(file.getParent());
@@ -35,6 +52,10 @@ public class Storage {
         }
     }
 
+    /**
+     * Loads tasks from the storage files.
+     * @return The list of loaded tasks
+     */
     public ArrayList<Task> loadTasks() {
         ArrayList<Task> tasks = new ArrayList<>();
         File file = new File(filePath);
@@ -49,7 +70,9 @@ public class Storage {
             // DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(" \\| ");
-                if (parts.length < 3) continue;
+                if (parts.length < 3) {
+                    continue;
+                }
 
                 String type = parts[0];
                 boolean isDone = parts[1].equals("1");
@@ -92,6 +115,11 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Formats a task for saving to the file.
+     * @param task The task to format
+     * @return The formatted string representation
+     */
     private String formatTaskForSaving(Task task) {
         String type;
         if (task instanceof Todo) {
@@ -109,11 +137,14 @@ public class Storage {
 
         if (task instanceof Deadline) {
             LocalDate deadline = ((Deadline) task).getBy();
-            return type + " | " + status + " | " + description + " | " + deadline.format(DateTimeFormatter.ofPattern("d/M/yyyy"));
+            return type + " | " + status + " | " + description + " | "
+                    + deadline.format(DateTimeFormatter.ofPattern("d/M/yyyy"));
         } else if (task instanceof Event) {
             LocalDate startDate = ((Event) task).getStartDate();
             LocalDate endDate = ((Event) task).getEndDate();
-            return type + " | " + status + " | " + description + " | " + startDate.format(DateTimeFormatter.ofPattern("d/M/yyyy")) + " | " + endDate.format(DateTimeFormatter.ofPattern("d/M/yyyy"));
+            return type + " | " + status + " | " + description + " | "
+                    + startDate.format(DateTimeFormatter.ofPattern("d/M/yyyy")) + " | "
+                    + endDate.format(DateTimeFormatter.ofPattern("d/M/yyyy"));
         } else {
             return type + " | " + status + " | " + description;
         }

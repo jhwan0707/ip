@@ -33,10 +33,12 @@ public class Event extends Task {
      */
     private static LocalDate parseDate(String dateString) {
         try {
-            DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("d/M/yyyy").withLocale(java.util.Locale.ENGLISH);
+            DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("d/M/yyyy")
+                    .withLocale(java.util.Locale.ENGLISH);
             return LocalDate.parse(dateString.trim(), formatter1);
         } catch (Exception e) {
-            DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd").withLocale(java.util.Locale.ENGLISH);
+            DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                    .withLocale(java.util.Locale.ENGLISH);
             return LocalDate.parse(dateString.trim(), formatter2);
         }
     }

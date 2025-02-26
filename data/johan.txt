@@ -1,2 +1,0 @@
-T | 0 | read book
-E | 0 | project meeting | 12/2/2019 | 12/12/2022

@@ -3,10 +3,10 @@ package johan.parser;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.Test;
+
 import johan.command.Command;
 import johan.command.TodoCommand;
-
-import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the Parser class.

@@ -1,11 +1,11 @@
 package johan.command;
 
+import java.time.LocalDate;
+
 import johan.Johan;
 import johan.storage.Storage;
 import johan.task.TaskList;
 import johan.ui.Ui;
-
-import java.time.LocalDate;
 
 /**
  * Command to show tasks occurring on a specific date.

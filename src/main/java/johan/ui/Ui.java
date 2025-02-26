@@ -2,6 +2,7 @@ package johan.ui;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import johan.task.Deadline;
@@ -130,5 +131,23 @@ public class Ui {
         if (!found) {
             System.out.println("No tasks found on this date.");
         }
+    }
+
+    /**
+     * Displays tasks whose descriptions contain the search keyword.
+     *
+     * @param matchingTasks The list of tasks that match the keyword
+     */
+    public void showFoundTasks(ArrayList<Task> matchingTasks) {
+        System.out.println("____________________________________________________________");
+        System.out.println(" Here are the matching tasks in your list:");
+        if (matchingTasks.isEmpty()) {
+            System.out.println(" No matching tasks found.");
+        } else {
+            for (int i = 0; i < matchingTasks.size(); i++) {
+                System.out.println(" " + (i + 1) + "." + matchingTasks.get(i).toString());
+            }
+        }
+        System.out.println("____________________________________________________________");
     }
 }

@@ -1,11 +1,11 @@
 package johan.command;
 
+import java.util.ArrayList;
+
 import johan.storage.Storage;
 import johan.task.Task;
 import johan.task.TaskList;
 import johan.ui.Ui;
-
-import java.util.ArrayList;
 
 /**
  * Command to find tasks containing a specific keyword in their description.

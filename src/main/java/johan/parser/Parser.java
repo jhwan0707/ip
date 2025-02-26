@@ -5,6 +5,7 @@ import johan.command.DeadlineCommand;
 import johan.command.DeleteCommand;
 import johan.command.EventCommand;
 import johan.command.ExitCommand;
+import johan.command.FindCommand;
 import johan.command.ListCommand;
 import johan.command.MarkCommand;
 import johan.command.OnDateCommand;
@@ -16,6 +17,7 @@ import johan.command.TodoCommand;
 public class Parser {
     /**
      * Parses the input string into a corresponding Command object.
+     *
      * @param input The user input string to parse
      * @return The corresponding Command object
      * @throws Exception If the input cannot be parsed
@@ -58,8 +60,15 @@ public class Parser {
         } else if (input.startsWith("on ")) {
             String dateStr = input.substring(3).trim();
             return new OnDateCommand(dateStr);
+        } else if (input.startsWith("find ")) {
+            String keyword = input.substring(5).trim();
+            if (keyword.isEmpty()) {
+                throw new IllegalArgumentException("Please specify a keyword.");
+            }
+            return new FindCommand(keyword);
         } else {
             throw new IllegalArgumentException("I'm sorry, but I don't know what that means :-(");
         }
     }
 }
+

@@ -3,6 +3,7 @@ package johan;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 import johan.command.Command;
 import johan.parser.Parser;
@@ -31,9 +32,9 @@ public class Johan {
      * @param filePath The path to the storage file
      */
     public Johan(String filePath) {
-        ui = new Ui();
-        storage = new Storage(filePath);
-        parser = new Parser();
+        this.ui = new Ui();
+        this.storage = new Storage(filePath);
+        this.parser = new Parser();
 
         ArrayList<Task> loadedTasks;
         try {
@@ -45,6 +46,18 @@ public class Johan {
         tasks = new TaskList(loadedTasks);
     }
 
+    /**
+     * Constructs a Johan instance with explicit dependencies (GUI mode).
+     * @param storage The storage instance
+     * @param tasks The task list instance
+     * @param parser The parser instance
+     */
+    public Johan(Storage storage, TaskList tasks, Parser parser) {
+        this.storage = storage;
+        this.tasks = tasks;
+        this.parser = parser;
+        this.ui = null;
+    }
     /**
      * Runs the main application loop, processing user commands until exit.
      */
@@ -65,6 +78,18 @@ public class Johan {
             }
         }
         ui.showGoodbye();
+    }
+
+    /**
+     * Executes a user command and sends output to the provided consumer (GUI mode).
+     * @param input The user command string
+     * @param outputConsumer A consumer to handle output messages
+     * @throws Exception If the command execution fails
+     */
+    public void executeCommand(String input, Consumer<String> outputConsumer) throws Exception {
+        Ui guiUi = new Ui(outputConsumer);
+        Command command = parser.parse(input);
+        command.execute(tasks, guiUi, storage);
     }
     /**
      * Main entry point for the application.

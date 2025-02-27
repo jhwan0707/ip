@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * Abstract base class representing a task in the application.
  */
-public abstract class Task {
+public abstract class Task implements Comparable<Task> {
     private static int nextTaskID = 1;
     protected String description;
     protected boolean isDone;
@@ -95,5 +95,15 @@ public abstract class Task {
             baseString += "(by: " + deadline.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ")";
         }
         return baseString;
+    }
+    /**
+     * Compares tasks alphabetically by description as a default.
+     *
+     * @param other The other task to compare to
+     * @return Negative if this task comes before, positive if after, zero if equal
+     */
+    @Override
+    public int compareTo(Task other) {
+        return this.description.compareTo(other.description);
     }
 }

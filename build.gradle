@@ -55,6 +55,9 @@ shadowJar {
     archiveBaseName = "johan"
     archiveClassifier = null
     archiveFileName = 'johan.jar'
+    mergeServiceFiles()
+    archiveVersion.set(new Date().format('yyyyMMdd-HHmmss'))
+    archiveFileName = "johan-${archiveVersion.get()}.jar"
 }
 
 run {

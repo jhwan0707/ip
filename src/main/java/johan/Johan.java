@@ -35,8 +35,18 @@ public class Johan {
         this.ui = new Ui();
         this.storage = new Storage(filePath);
         this.parser = new Parser();
-        this.tasks = loadTasks();
+
+        ArrayList<Task> loadedTasks;
+        try {
+            loadedTasks = storage.loadTasks();
+            assert loadedTasks != null : "Task list should not be null";
+        } catch (Exception e) {
+            ui.showError("Failed to load tasks: " + e.getMessage());
+            loadedTasks = new ArrayList<>();
+        }
+        tasks = new TaskList(loadedTasks);
     }
+
     /**
      * Constructs a Johan instance with explicit dependencies (GUI mode).
      * @param storage The storage instance
@@ -44,20 +54,13 @@ public class Johan {
      * @param parser The parser instance
      */
     public Johan(Storage storage, TaskList tasks, Parser parser) {
+        assert storage != null : "Storage should not be null";
+        assert tasks != null : "Task list should not be null";
+        assert parser != null : "Parser should not be null";
         this.storage = storage;
         this.tasks = tasks;
         this.parser = parser;
         this.ui = null;
-    }
-    private TaskList loadTasks() {
-        ArrayList<Task> loadedTasks;
-        try {
-            loadedTasks = storage.loadTasks();
-        } catch (Exception e) {
-            ui.showError("Failed to load tasks: " + e.getMessage());
-            loadedTasks = new ArrayList<>();
-        }
-        return new TaskList(loadedTasks);
     }
     /**
      * Runs the main application loop, processing user commands until exit.
@@ -88,6 +91,7 @@ public class Johan {
      * @throws Exception If the command execution fails
      */
     public void executeCommand(String input, Consumer<String> outputConsumer) throws Exception {
+        assert input != null && !input.isEmpty() : "Input should not be null";
         Ui guiUi = new Ui(outputConsumer);
         Command command = parser.parse(input);
         command.execute(tasks, guiUi, storage);

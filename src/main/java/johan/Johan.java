@@ -35,17 +35,8 @@ public class Johan {
         this.ui = new Ui();
         this.storage = new Storage(filePath);
         this.parser = new Parser();
-
-        ArrayList<Task> loadedTasks;
-        try {
-            loadedTasks = storage.loadTasks();
-        } catch (Exception e) {
-            ui.showError("Failed to load tasks: " + e.getMessage());
-            loadedTasks = new ArrayList<>();
-        }
-        tasks = new TaskList(loadedTasks);
+        this.tasks = loadTasks();
     }
-
     /**
      * Constructs a Johan instance with explicit dependencies (GUI mode).
      * @param storage The storage instance
@@ -57,6 +48,16 @@ public class Johan {
         this.tasks = tasks;
         this.parser = parser;
         this.ui = null;
+    }
+    private TaskList loadTasks() {
+        ArrayList<Task> loadedTasks;
+        try {
+            loadedTasks = storage.loadTasks();
+        } catch (Exception e) {
+            ui.showError("Failed to load tasks: " + e.getMessage());
+            loadedTasks = new ArrayList<>();
+        }
+        return new TaskList(loadedTasks);
     }
     /**
      * Runs the main application loop, processing user commands until exit.

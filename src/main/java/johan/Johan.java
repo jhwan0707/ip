@@ -39,6 +39,7 @@ public class Johan {
         ArrayList<Task> loadedTasks;
         try {
             loadedTasks = storage.loadTasks();
+            assert loadedTasks != null : "Task list should not be null";
         } catch (Exception e) {
             ui.showError("Failed to load tasks: " + e.getMessage());
             loadedTasks = new ArrayList<>();
@@ -53,6 +54,9 @@ public class Johan {
      * @param parser The parser instance
      */
     public Johan(Storage storage, TaskList tasks, Parser parser) {
+        assert storage != null : "Storage should not be null";
+        assert tasks != null : "Task list should not be null";
+        assert parser != null : "Parser should not be null";
         this.storage = storage;
         this.tasks = tasks;
         this.parser = parser;
@@ -87,6 +91,7 @@ public class Johan {
      * @throws Exception If the command execution fails
      */
     public void executeCommand(String input, Consumer<String> outputConsumer) throws Exception {
+        assert input != null && !input.isEmpty() : "Input should not be null";
         Ui guiUi = new Ui(outputConsumer);
         Command command = parser.parse(input);
         command.execute(tasks, guiUi, storage);

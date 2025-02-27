@@ -95,6 +95,7 @@ public class Johan {
         Ui guiUi = new Ui(outputConsumer);
         Command command = parser.parse(input);
         command.execute(tasks, guiUi, storage);
+        // TODO: Use streams to process tasks (e.g., filter) in future increments
     }
     /**
      * Main entry point for the application.

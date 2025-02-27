@@ -46,4 +46,17 @@ public class Deadline extends Task {
     public LocalDate getBy() {
         return by;
     }
+    /**
+     * Compares deadlines chronologically by due date.
+     *
+     * @param other The other task to compare to
+     * @return Negative if this deadline is earlier, positive if later, zero if same
+     */
+    @Override
+    public int compareTo(Task other) {
+        if (other instanceof Deadline) {
+            return this.by.compareTo(((Deadline) other).by);
+        }
+        return super.compareTo(other);
+    }
 }

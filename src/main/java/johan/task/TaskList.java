@@ -1,6 +1,7 @@
 package johan.task;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Manages a list of tasks.
@@ -64,5 +65,11 @@ public class TaskList {
      */
     public int size() {
         return tasks.size();
+    }
+    /**
+     * Sorts the task list chronologically for deadlines, alphabetically otherwise.
+     */
+    public void sort() {
+        Collections.sort(tasks);
     }
 }

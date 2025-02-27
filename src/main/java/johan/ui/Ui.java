@@ -159,5 +159,13 @@ public class Ui {
         }
         System.out.println("____________________________________________________________");
     }
+    /**
+     * Displays a generic message to the user.
+     *
+     * @param message The message to display
+     */
+    public void showMessage(String message) {
+        outputConsumer.accept(message);
+    }
 }
 

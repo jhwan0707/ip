@@ -9,6 +9,7 @@ import johan.command.FindCommand;
 import johan.command.ListCommand;
 import johan.command.MarkCommand;
 import johan.command.OnDateCommand;
+import johan.command.SortCommand;
 import johan.command.TodoCommand;
 
 /**
@@ -66,6 +67,8 @@ public class Parser {
                 throw new IllegalArgumentException("Please specify a keyword.");
             }
             return new FindCommand(keyword);
+        } else if (input.startsWith("sort")) {
+            return new SortCommand();
         } else {
             throw new IllegalArgumentException("I'm sorry, but I don't know what that means :-(");
         }

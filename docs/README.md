@@ -8,7 +8,7 @@ Johan Chatbot is a JavaFX-based task manager that lets you organize your todos, 
 ## Quick Start
 
 1. Download `johan.jar` from [releases](https://github.com/jhwan0707/ip/releases) or build it with `./gradlew shadowJar`.
-2. Run it: `java -jar build/libs/johan.jar`.
+2. **Run**: `java -jar build/libs/johan.jar`.
 
 ## Adding Deadlines
 

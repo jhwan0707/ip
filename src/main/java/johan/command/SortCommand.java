@@ -11,7 +11,7 @@ public class SortCommand extends Command {
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {
         tasks.sort();
-        ui.showMessage("Tasks sorted chronologically for deadlines, alphabetically otherwise:");
+        ui.showMessage("Tasks sorted: deadlines by date, others by name.");
         ui.showTaskList(tasks);
     }
 }

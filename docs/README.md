@@ -48,6 +48,8 @@ Sort deadlines chronologically and other tasks alphabetically.
 
 - **Command**: `sort`
 - **Example**: `sort`
+  - Before: `1. [D][ ] submit /by 2025-03-01`, `2. [D][ ] review /by 2025-02-01`
+  - After: `1. [D][ ] review /by 2025-02-01`, `2. [D][ ] submit /by 2025-03-01`
 - **Outcome**: Reorders tasks (e.g., deadlines by date, todos alphabetically).
 
 ## Searching Tasks

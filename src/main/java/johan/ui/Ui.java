@@ -30,6 +30,7 @@ public class Ui {
     public void showWelcome() {
         outputConsumer.accept("Hello! I'm johan.Johan");
         outputConsumer.accept("What can I do for you?");
+        outputConsumer.accept("Type 'list' or 'sort' to get started!");
     }
     /**
      * Displays a goodbye message to the user.
